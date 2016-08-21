@@ -1,0 +1,74 @@
+Private Sub CommandButton1_Click()
+ColumnCount = 2
+RowCount = 0
+Sourcerow = 1
+Correctposition = 1
+Do While Sourcerow < 237
+    thistype = Checkfirstcharacter(Cells(Sourcerow, 1))
+    endtype = Checklastcharacter(Cells(Sourcerow, 1))
+    If thistype = 1 Then
+        RowCount = RowCount + 1
+        ColumnCount = 2
+        Cells(RowCount, ColumnCount) = cutstring(Cells(Sourcerow, 1))
+        
+        Correctposition = 1
+    End If
+    
+    If thistype = 2 Then
+        ColumnCount = ColumnCount + 1
+        
+        If endtype = 1 Then
+            Cells(RowCount, 8) = Correctposition
+            Cells(RowCount, ColumnCount) = cutend(cutstring(Cells(Sourcerow, 1)))
+        Else
+            Cells(RowCount, ColumnCount) = cutstring(Cells(Sourcerow, 1))
+        End If
+        Correctposition = Correctposition + 1
+    End If
+    
+Sourcerow = Sourcerow + 1
+Loop
+
+End Sub
+
+Function Checkfirstcharacter(arg As String)
+    first = Left(arg, 1)
+    sMatch1 = first Like "[1-9]"
+    sMatch2 = first Like "[a-z]"
+    
+    If sMatch1 Then Checkfirstcharacter = 1
+    If sMatch2 Then Checkfirstcharacter = 2
+    
+
+End Function
+
+Function cutstring(arg As String)
+
+arglength = Len(arg)
+cutstring = arg
+For i = 1 To arglength
+    char_observed = Left(cutstring, 1)
+    If char_observed = " " Then
+        cutstring = Right(cutstring, arglength - i)
+        Exit For
+    Else
+        cutstring = Right(cutstring, arglength - i)
+    End If
+Next i
+End Function
+
+Function Checklastcharacter(arg As String)
+    last = Right(arg, 1)
+    
+      
+    If last = "#" Then Checklastcharacter = 1
+    
+
+End Function
+
+Function cutend(arg As String)
+
+arglength = Len(arg)
+cutend = Left(arg, arglength - 1)
+
+End Function
